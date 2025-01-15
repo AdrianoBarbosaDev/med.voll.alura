@@ -1,6 +1,7 @@
 package med.voll.alura.api.controllers;
 
 import jakarta.validation.Valid;
+import med.voll.alura.api.model.dtos.DadosAtualizacaoMedico;
 import med.voll.alura.api.model.dtos.DadosListagemMedico;
 import med.voll.alura.api.model.Medico;
 import med.voll.alura.api.model.dtos.DadosCadastroMedico;
@@ -30,5 +31,19 @@ public class MedicoController {
     @GetMapping
     public Page<DadosListagemMedico> buscarMedico(@PageableDefault(size = 10, sort = {"nome"}) Pageable pagina){
         return medicoRepository.findAll(pagina).map(DadosListagemMedico::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void atualizar(@RequestBody @Valid DadosAtualizacaoMedico atualizacaoMedicoDTO){
+        var medico = medicoRepository.getReferenceById(atualizacaoMedicoDTO.id());
+        medico.atualizarInformacoes(atualizacaoMedicoDTO);
+
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void exlcluir(@PathVariable Long id){
+        medicoRepository.deleteById(id);
     }
 }

@@ -1,7 +1,9 @@
 package med.voll.alura.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
+import med.voll.alura.api.model.dtos.DadosAtualizacaoMedico;
 import med.voll.alura.api.model.dtos.DadosCadastroMedico;
 import med.voll.alura.api.model.enums.Especialidade;
 
@@ -89,5 +91,14 @@ public class Medico {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public void atualizarInformacoes(DadosAtualizacaoMedico atualizacaoMedicoDTO) {
+        if(atualizacaoMedicoDTO.nome()!=null)
+            this.nome = atualizacaoMedicoDTO.nome();
+        if(atualizacaoMedicoDTO.telefone()!=null)
+            this.telefone = atualizacaoMedicoDTO.telefone();
+        if(atualizacaoMedicoDTO.endereco()!=null)
+            this.endereco.atualizarInformacoes(atualizacaoMedicoDTO.endereco());
     }
 }
